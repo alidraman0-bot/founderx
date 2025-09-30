@@ -1,0 +1,133 @@
+{
+  "project_id": "TEST_PROJECT",
+  "campaign_id": "250ba8fb",
+  "target_data": {
+    "target_market": "Small business owners and entrepreneurs",
+    "value_proposition": "AI-powered business plan generation and validation",
+    "key_benefits": [
+      "Save 40+ hours of research and planning",
+      "Professional investor-ready documents",
+      "Market validation and competitive analysis"
+    ],
+    "customer_segments": [
+      "Solo entrepreneurs",
+      "Small business owners",
+      "Startup founders"
+    ],
+    "pain_points": [
+      "Time-consuming business planning",
+      "Lack of market research expertise",
+      "Difficulty attracting investors"
+    ]
+  },
+  "ad_copies": [
+    {
+      "platform": "Google Search",
+      "headline": "Transform Your Small business owners and entrepreneurs with AI",
+      "description": "AI-powered business plan generation and validation. Save 40+ hours of work.",
+      "cta": "Start Free Trial",
+      "budget_allocation": 40.0
+    },
+    {
+      "platform": "Facebook",
+      "headline": "Stop Struggling with Time-consuming business planning",
+      "description": "Join 1000+ Solo entrepreneurs who found success.",
+      "cta": "Learn More",
+      "budget_allocation": 35.0
+    },
+    {
+      "platform": "LinkedIn",
+      "headline": "Professional AI-powered business plan generation and validation for Small business owners and entrepreneurs",
+      "description": "Get investor-ready documents in 24 hours. Trusted by 500+ businesses.",
+      "cta": "Get Started",
+      "budget_allocation": 25.0
+    }
+  ],
+  "campaign_results": {
+    "campaign_id": "250ba8fb",
+    "start_time": "2025-09-29T13:57:29.675561",
+    "platforms": {
+      "Google Search": {
+        "budget_spent": 34.0,
+        "impressions": 4000,
+        "clicks": 200,
+        "signups": 12,
+        "revenue": 8.0,
+        "ctr": 5.0,
+        "conversion_rate": 6.0
+      },
+      "Facebook": {
+        "budget_spent": 29.75,
+        "impressions": 3500,
+        "clicks": 175,
+        "signups": 10,
+        "revenue": 7.0,
+        "ctr": 5.0,
+        "conversion_rate": 6.0
+      },
+      "LinkedIn": {
+        "budget_spent": 21.25,
+        "impressions": 2500,
+        "clicks": 125,
+        "signups": 7,
+        "revenue": 5.0,
+        "ctr": 5.0,
+        "conversion_rate": 6.0
+      }
+    },
+    "total_spent": 85.0,
+    "total_signups": 29,
+    "total_revenue": 20.0
+  },
+  "monitoring_results": {
+    "campaign_id": "250ba8fb",
+    "monitoring_period": "7 days",
+    "daily_metrics": [
+      {
+        "day": 1,
+        "signups": 10,
+        "revenue": 30,
+        "traffic": 170
+      },
+      {
+        "day": 2,
+        "signups": 12,
+        "revenue": 35,
+        "traffic": 190
+      },
+      {
+        "day": 3,
+        "signups": 14,
+        "revenue": 40,
+        "traffic": 210
+      },
+      {
+        "day": 4,
+        "signups": 16,
+        "revenue": 45,
+        "traffic": 230
+      },
+      {
+        "day": 5,
+        "signups": 18,
+        "revenue": 50,
+        "traffic": 250
+      },
+      {
+        "day": 6,
+        "signups": 20,
+        "revenue": 55,
+        "traffic": 270
+      },
+      {
+        "day": 7,
+        "signups": 22,
+        "revenue": 60,
+        "traffic": 290
+      }
+    ],
+    "final_status": "traction_failed"
+  },
+  "traction_validated": false,
+  "completion_time": "2025-09-29T13:57:30.056523"
+}

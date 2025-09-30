@@ -1,0 +1,46 @@
+{
+  "projectName": "FounderX MVP",
+  "analysisDate": "2024-01-15T10:30:00Z",
+  "technicalDebtHours": 3.5,
+  "vulnerabilities": 2,
+  "codeSmells": 15,
+  "coverage": 78.5,
+  "duplications": 5.2,
+  "linesOfCode": 1250,
+  "files": 45,
+  "complexity": {
+    "cyclomatic": 12.3,
+    "cognitive": 8.7
+  },
+  "security": {
+    "critical": 0,
+    "major": 1,
+    "minor": 1,
+    "info": 3
+  },
+  "reliability": {
+    "bugs": 3,
+    "reliabilityRating": "B"
+  },
+  "maintainability": {
+    "technicalDebtRatio": "3.5%",
+    "maintainabilityRating": "A"
+  },
+  "hotspots": [
+    {
+      "file": "src/components/PaymentProcessor.js",
+      "debt": 1.2,
+      "vulnerabilities": 1
+    },
+    {
+      "file": "src/utils/dataValidation.js", 
+      "debt": 0.8,
+      "vulnerabilities": 1
+    }
+  ],
+  "recommendations": [
+    "Implement input validation for payment processing",
+    "Add error handling for API calls",
+    "Reduce code complexity in data validation functions"
+  ]
+}

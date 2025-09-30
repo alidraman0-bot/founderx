@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: system-ui, sans-serif;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-[#6C63FF] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#38E4AE] transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-[#1B2B52] transition-colors duration-200;
+  }
+  
+  .section-padding {
+    @apply py-20 px-6;
+  }
+  
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
