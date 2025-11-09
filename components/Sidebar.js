@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 const navigation = [
   { name: 'Overview', href: '/dashboard', icon: '📊' },
   { name: 'Idea Discovery', href: '/idea-discovery', icon: '💡' },
-  { name: 'Business Plan', href: '/business-plan', icon: '📋' },
+  { name: 'Business Plan', href: '/plan-generator', icon: '📋' },
   { name: 'MVP Builder', href: '/mvp-builder', icon: '🚀' },
   { name: 'Branding', href: '/branding', icon: '🎨' },
   { name: 'Launch', href: '/launch', icon: '🌍' },
@@ -37,7 +37,7 @@ export default function Sidebar({ isOpen, onClose }) {
       {/* Sidebar */}
       <div className={`
         fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 transform transition-transform duration-300 ease-in-out
-        lg:translate-x-0 lg:static lg:inset-0
+        lg:translate-x-0 lg:static lg:inset-0 lg:w-64
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="flex flex-col h-full">

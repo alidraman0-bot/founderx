@@ -128,24 +128,34 @@ function calculateDeployTime(techStack, code) {
   if (stackLower.includes('laravel')) baseTime += 30; // Composer dependencies
   
   // Add time based on code complexity
-  const codeSize = JSON.stringify(code).length;
-  if (codeSize > 100000) baseTime += 20; // Large codebase
-  if (codeSize > 500000) baseTime += 30; // Very large codebase
+  if (code) {
+    const codeSize = JSON.stringify(code).length;
+    if (codeSize > 100000) baseTime += 20; // Large codebase
+    if (codeSize > 500000) baseTime += 30; // Very large codebase
+  }
   
   return `${baseTime}s`;
 }
 
 function generateDeploymentURL(platformName) {
-  const subdomain = generateSubdomain();
+  // Generate a unique demo ID and return a working demo URL within our app
+  const demoUUID = generateUUID();
   
-  const urls = {
-    'Vercel': `https://${subdomain}.vercel.app`,
-    'Netlify': `https://${subdomain}.netlify.app`,
-    'Render': `https://${subdomain}.onrender.com`,
-    'Railway': `https://${subdomain}.railway.app`
-  };
-  
-  return urls[platformName] || `https://${subdomain}.app`;
+  // Return a URL that points to our own demo MVP page
+  // This will be accessible from the FounderX application
+  const baseUrl = process.env.NODE_ENV === 'production' 
+    ? 'https://founderx.vercel.app' // Replace with your actual production URL
+    : 'http:\/\/localhost:3000';
+    
+  return `${baseUrl}/mvp-demo?id=${demoUUID}`;
+}
+
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0,
+        v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 }
 
 function generateSubdomain() {

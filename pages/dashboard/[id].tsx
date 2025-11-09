@@ -7,9 +7,9 @@ import { useRouter } from 'next/router'
 export default function StartupDashboard() {
   const router = useRouter()
   const { id } = router.query
-  const [startup, setStartup] = useState(null)
-  const [signups, setSignups] = useState([])
-  const [feedback, setFeedback] = useState([])
+  const [startup, setStartup] = useState<any>(null)
+  const [signups, setSignups] = useState<any[]>([])
+  const [feedback, setFeedback] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

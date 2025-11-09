@@ -13,6 +13,10 @@ export default function IdeaDiscovery() {
   const [isScanning, setIsScanning] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [expandedCard, setExpandedCard] = useState(null)
+  const [userIdea, setUserIdea] = useState('')
+  const [ideaDescription, setIdeaDescription] = useState('')
+  const [isValidating, setIsValidating] = useState(false)
+  const [validationResult, setValidationResult] = useState(null)
   const router = useRouter()
 
   const signalSources = [
@@ -81,6 +85,68 @@ export default function IdeaDiscovery() {
       ]
     }
     return mockData[source] || []
+  }
+
+  // Validate user's own idea
+  const validateUserIdea = async () => {
+    if (!userIdea.trim()) {
+      alert('Please enter your idea')
+      return
+    }
+
+    setIsValidating(true)
+    setValidationResult(null)
+
+    try {
+      const response = await fetch('/api/validate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          idea: userIdea,
+          description: ideaDescription,
+          targetMarket: '',
+          businessModel: ''
+        }),
+      })
+
+      const data = await response.json()
+      setValidationResult(data)
+      
+      // Convert validation result to opportunity format for consistency
+      const opportunity = {
+        id: data.ideaId || Date.now().toString(),
+        title: data.idea,
+        tagline: data.description,
+        problem: data.description,
+        solution: data.description,
+        targetCustomer: '',
+        marketSize: '',
+        competitors: [],
+        revenueModel: '',
+        marketPotential: data.overallScore >= 70 ? 'High' : data.overallScore >= 60 ? 'Medium' : 'Low',
+        sources: ['User Input'],
+        tags: [],
+        confidence: data.overallScore,
+        detailedAnalysis: {
+          marketTrends: data.validationChecks[0]?.details || '',
+          keyInsights: data.validationChecks[1]?.details || '',
+          opportunities: data.validationChecks[3]?.details || '',
+          risks: data.riskFactors?.map(r => r.description).join(', ') || ''
+        },
+        nextSteps: data.nextSteps || [],
+        validationData: data
+      }
+
+      // Add to opportunities list
+      setOpportunities(prev => [opportunity, ...prev])
+    } catch (error) {
+      console.error('Validation error:', error)
+      alert('Failed to validate idea. Please try again.')
+    } finally {
+      setIsValidating(false)
+    }
   }
 
   // Generate AI opportunities from signals
@@ -337,20 +403,80 @@ export default function IdeaDiscovery() {
               <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
                 FounderX scans the web for the next billion-dollar ideas. We analyze Google, Hacker News, Reddit, X, GitHub, and Crunchbase to find emerging trends and opportunities.
               </p>
-              <Button
-                onClick={generateOpportunities}
-                disabled={isScanning}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isScanning ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-                    AI Analyzing Signals...
-                  </>
-                ) : (
-                  '🔍 Scan Now'
-                )}
-              </Button>
+            </div>
+
+            {/* User Idea Input Section */}
+            <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">💡 Validate Your Own Idea</h2>
+              <p className="text-gray-600 mb-6">
+                Enter your startup idea below and get instant validation with market analysis, competition insights, and feasibility scores.
+              </p>
+              
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="idea" className="block text-sm font-medium text-gray-700 mb-2">
+                    Your Idea *
+                  </label>
+                  <input
+                    id="idea"
+                    type="text"
+                    value={userIdea}
+                    onChange={(e) => setUserIdea(e.target.value)}
+                    placeholder="e.g., AI-powered personal finance assistant"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+                    Description (Optional)
+                  </label>
+                  <textarea
+                    id="description"
+                    value={ideaDescription}
+                    onChange={(e) => setIdeaDescription(e.target.value)}
+                    placeholder="Describe your idea in more detail..."
+                    rows={3}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 resize-none"
+                  />
+                </div>
+                
+                <div className="flex gap-4">
+                  <Button
+                    onClick={validateUserIdea}
+                    disabled={!userIdea.trim() || isValidating}
+                    className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    {isValidating ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                        Validating...
+                      </>
+                    ) : (
+                      <>
+                        ✓ Validate Idea
+                      </>
+                    )}
+                  </Button>
+                  
+                  <Button
+                    onClick={generateOpportunities}
+                    disabled={isScanning}
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    {isScanning ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                        Scanning Internet...
+                      </>
+                    ) : (
+                      <>
+                        🌐 Scan Internet for Multi-Billion Ideas
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
             </div>
 
             {/* Signal Tabs */}
@@ -405,12 +531,12 @@ export default function IdeaDiscovery() {
               </div>
             </div>
 
-            {/* AI Opportunities Section */}
+            {/* Opportunities Section */}
             {opportunities.length > 0 && (
               <div className="mb-8">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900">AI-Generated Opportunities</h2>
-                  <span className="text-sm text-gray-500">{opportunities.length} opportunities found</span>
+                  <h2 className="text-2xl font-bold text-gray-900">Opportunities</h2>
+                  <span className="text-sm text-gray-500">{opportunities.length} {opportunities.length === 1 ? 'opportunity' : 'opportunities'} found</span>
                 </div>
                 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -487,31 +613,97 @@ export default function IdeaDiscovery() {
                       {/* Expanded Content */}
                       {expandedCard === opportunity.id && (
                         <div className="border-t border-gray-200 pt-4 space-y-4">
+                          {opportunity.validationData && (
+                            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                              <h4 className="font-semibold text-green-900 mb-3">Validation Results</h4>
+                              <div className="mb-3">
+                                <div className="flex items-center justify-between mb-2">
+                                  <span className="text-sm font-medium text-gray-700">Overall Score:</span>
+                                  <span className="text-2xl font-bold text-green-600">{opportunity.validationData.overallScore}%</span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-3">
+                                  <div 
+                                    className={`h-3 rounded-full ${
+                                      opportunity.validationData.overallScore >= 70 ? 'bg-green-500' :
+                                      opportunity.validationData.overallScore >= 60 ? 'bg-yellow-500' : 'bg-red-500'
+                                    }`}
+                                    style={{ width: `${opportunity.validationData.overallScore}%` }}
+                                  ></div>
+                                </div>
+                              </div>
+                              <div className="grid grid-cols-2 gap-3">
+                                {opportunity.validationData.validationChecks?.slice(0, 4).map((check, idx) => (
+                                  <div key={idx} className="bg-white rounded p-2">
+                                    <div className="flex items-center justify-between mb-1">
+                                      <span className="text-xs font-medium text-gray-700">{check.category}:</span>
+                                      <span className={`text-xs font-bold ${
+                                        check.status === 'pass' ? 'text-green-600' :
+                                        check.status === 'warning' ? 'text-yellow-600' : 'text-red-600'
+                                      }`}>
+                                        {check.score}%
+                                      </span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 rounded-full h-1.5">
+                                      <div 
+                                        className={`h-1.5 rounded-full ${
+                                          check.status === 'pass' ? 'bg-green-500' :
+                                          check.status === 'warning' ? 'bg-yellow-500' : 'bg-red-500'
+                                        }`}
+                                        style={{ width: `${check.score}%` }}
+                                      ></div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
                           <div>
                             <h4 className="font-semibold text-gray-900 mb-2">Solution:</h4>
                             <p className="text-gray-600 text-sm">{opportunity.solution}</p>
                           </div>
 
-                          <div>
-                            <h4 className="font-semibold text-gray-900 mb-2">Market Size:</h4>
-                            <p className="text-gray-600 text-sm">{opportunity.marketSize}</p>
-                          </div>
-
-                          <div>
-                            <h4 className="font-semibold text-gray-900 mb-2">Key Competitors:</h4>
-                            <div className="flex flex-wrap gap-2">
-                              {opportunity.competitors.map((competitor, idx) => (
-                                <span key={idx} className="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">
-                                  {competitor}
-                                </span>
-                              ))}
+                          {opportunity.marketSize && (
+                            <div>
+                              <h4 className="font-semibold text-gray-900 mb-2">Market Size:</h4>
+                              <p className="text-gray-600 text-sm">{opportunity.marketSize}</p>
                             </div>
-                          </div>
+                          )}
 
-                          <div>
-                            <h4 className="font-semibold text-gray-900 mb-2">Revenue Model:</h4>
-                            <p className="text-gray-600 text-sm">{opportunity.revenueModel}</p>
-                          </div>
+                          {opportunity.competitors && opportunity.competitors.length > 0 && (
+                            <div>
+                              <h4 className="font-semibold text-gray-900 mb-2">Key Competitors:</h4>
+                              <div className="flex flex-wrap gap-2">
+                                {opportunity.competitors.map((competitor, idx) => (
+                                  <span key={idx} className="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">
+                                    {competitor}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {opportunity.revenueModel && (
+                            <div>
+                              <h4 className="font-semibold text-gray-900 mb-2">Revenue Model:</h4>
+                              <p className="text-gray-600 text-sm">{opportunity.revenueModel}</p>
+                            </div>
+                          )}
+
+                          {opportunity.validationData?.fundingRecommendation && (
+                            <div>
+                              <h4 className="font-semibold text-gray-900 mb-2">Funding Recommendation:</h4>
+                              <p className="text-gray-600 text-sm">
+                                <strong>Amount:</strong> {opportunity.validationData.fundingRecommendation.needed}
+                              </p>
+                              <p className="text-gray-600 text-sm">
+                                <strong>Use:</strong> {opportunity.validationData.fundingRecommendation.use}
+                              </p>
+                              <p className="text-gray-600 text-sm">
+                                <strong>Sources:</strong> {opportunity.validationData.fundingRecommendation.sources.join(', ')}
+                              </p>
+                            </div>
+                          )}
 
                           <div>
                             <h4 className="font-semibold text-gray-900 mb-2">Market Analysis:</h4>
@@ -554,24 +746,28 @@ export default function IdeaDiscovery() {
                           variant="outline" 
                           size="sm"
                           onClick={() => saveIdea(opportunity)}
+                          className="border-green-300 text-green-700 hover:bg-green-50 hover:border-green-400 focus:ring-green-500"
                         >
                           💾 Save
                         </Button>
                         <Button 
                           size="sm"
                           onClick={() => navigateToBusinessPlan(opportunity)}
+                          className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white focus:ring-blue-500"
                         >
                           📋 Plan
                         </Button>
                         <Button 
                           size="sm"
                           onClick={() => navigateToMVPBuilder(opportunity)}
+                          className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white focus:ring-green-500"
                         >
                           🚀 MVP
                         </Button>
                         <Button 
                           size="sm"
                           onClick={() => navigateToBranding(opportunity)}
+                          className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white focus:ring-purple-500"
                         >
                           🎨 Brand
                         </Button>

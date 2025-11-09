@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 export default function BrandingForm() {
   const [startupName, setStartupName] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
-  const [brandingResult, setBrandingResult] = useState(null)
+  const [brandingResult, setBrandingResult] = useState<any>(null)
   const [domainChecked, setDomainChecked] = useState(false)
 
   const handleGenerateBranding = async () => {

@@ -21,7 +21,7 @@ export default function FAQSection() {
         </div>
         
         <div className="space-y-4">
-          {faqData.map((faq, index) => (
+          {faqs.map((faq, index) => (
             <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
               <button
                 onClick={() => toggleFAQ(index)}

@@ -59,6 +59,69 @@ export const plans = [
   }
 ]
 
+export const comparisonFeatures = [
+  {
+    feature: 'Idea Generation',
+    free: '5 per month',
+    pro: 'Unlimited',
+    premium: 'Unlimited'
+  },
+  {
+    feature: 'MVP Builder',
+    free: '1',
+    pro: '5',
+    premium: 'Unlimited'
+  },
+  {
+    feature: 'Launch Pages',
+    free: '1',
+    pro: '3',
+    premium: 'Unlimited'
+  },
+  {
+    feature: 'Analytics Dashboard',
+    free: '❌',
+    pro: '✅',
+    premium: '✅'
+  },
+  {
+    feature: 'Team Collaboration',
+    free: '❌',
+    pro: '❌',
+    premium: '✅'
+  },
+  {
+    feature: 'Priority Support',
+    free: '❌',
+    pro: '✅',
+    premium: '✅'
+  },
+  {
+    feature: 'AI Signals',
+    free: '❌',
+    pro: '❌',
+    premium: '✅'
+  },
+  {
+    feature: 'Founder Coaching',
+    free: '❌',
+    pro: '❌',
+    premium: '✅'
+  },
+  {
+    feature: 'API Access',
+    free: '❌',
+    pro: '❌',
+    premium: '✅'
+  },
+  {
+    feature: 'White-label',
+    free: '❌',
+    pro: '❌',
+    premium: '✅'
+  }
+]
+
 export const faqs = [
   {
     question: 'Can I start free and upgrade later?',

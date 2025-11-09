@@ -63,7 +63,7 @@ export default function Dashboard() {
 
   const quickActions = [
     { title: 'Generate New Idea', href: '/idea-discovery', icon: '💡' },
-    { title: 'Create Plan', href: '/business-plan', icon: '📋' },
+    { title: 'Create Plan', href: '/plan-generator', icon: '📋' },
     { title: 'Build MVP', href: '/mvp-builder', icon: '🚀' }
   ]
 
@@ -88,7 +88,10 @@ export default function Dashboard() {
                 <p className="text-lg text-gray-700 mt-2">👋 Welcome back, {userName}</p>
               </div>
               <div className="mt-4 sm:mt-0">
-                <Button className="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600">
+                <Button 
+                  className="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600"
+                  onClick={() => window.location.href = '/pricing'}
+                >
                   Upgrade to Pro
                 </Button>
               </div>
@@ -162,7 +165,11 @@ export default function Dashboard() {
                     <p className="text-sm text-gray-600 mb-4">
                       Your AI cofounder is analyzing market trends and generating new opportunities.
                     </p>
-                    <Button variant="outline" className="w-full">
+                    <Button 
+                      variant="outline" 
+                      className="w-full"
+                      onClick={() => alert('AI Chat feature coming soon!')}
+                    >
                       Chat with AI
                     </Button>
                   </div>

@@ -74,7 +74,7 @@ export default function SavedIdeas({ savedIdeas, onRemove }) {
                   </div>
                   <p className="text-xs text-gray-600 mb-3 line-clamp-2">{idea.tagline}</p>
                   <div className="flex gap-2">
-                    <Link href="/business-plan" className="flex-1">
+                    <Link href="/plan-generator" className="flex-1">
                       <button className="w-full bg-gradient-to-r from-purple-600 to-blue-500 text-white px-3 py-1.5 rounded text-xs font-medium hover:from-purple-700 hover:to-blue-600 transition-all duration-200">
                         Plan
                       </button>

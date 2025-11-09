@@ -3,7 +3,7 @@ import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16',
+  apiVersion: '2025-08-27.basil',
 })
 
 const supabase = createClient(
@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Create or get Stripe customer
-    let customerId = existingUser?.stripe_customer_id
+    let customerId = (existingUser as any)?.stripe_customer_id
 
     if (!customerId) {
       const customer = await stripe.customers.create({

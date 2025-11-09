@@ -1,7 +1,7 @@
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16',
+  apiVersion: '2025-08-27.basil',
 })
 
 export async function createCheckoutSession(
@@ -54,7 +54,7 @@ export async function cancelSubscription(subscriptionId: string) {
 
 export async function updateSubscription(subscriptionId: string, priceId: string) {
   const subscription = await stripe.subscriptions.retrieve(subscriptionId)
-  
+
   return await stripe.subscriptions.update(subscriptionId, {
     items: [
       {
@@ -64,4 +64,8 @@ export async function updateSubscription(subscriptionId: string, priceId: string
     ],
     proration_behavior: 'create_prorations',
   })
+}
+
+export async function getCheckoutSession(sessionId: string) {
+  return await stripe.checkout.sessions.retrieve(sessionId)
 }

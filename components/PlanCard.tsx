@@ -1,6 +1,6 @@
 import { BusinessPlanResult } from '@/lib/openai'
 import { formatDate } from '@/lib/utils'
-import jsPDF from 'jspdf'
+// import jsPDF from 'jspdf'
 
 interface PlanCardProps {
   plan: BusinessPlanResult
@@ -9,6 +9,9 @@ interface PlanCardProps {
 
 export default function PlanCard({ plan, onExportPDF }: PlanCardProps) {
   const handleExportPDF = () => {
+    // PDF export functionality temporarily disabled - jsPDF not installed
+    console.log('PDF export not available')
+    /*
     const doc = new jsPDF()
     
     // Add title
@@ -39,6 +42,7 @@ export default function PlanCard({ plan, onExportPDF }: PlanCardProps) {
     })
     
     doc.save('business-plan.pdf')
+    */
   }
 
   return (

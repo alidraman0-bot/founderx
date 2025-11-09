@@ -1,5 +1,5 @@
 import React from 'react'
-import { plans } from '../data/plans'
+import { plans, comparisonFeatures } from '../data/plans'
 
 export default function ComparisonTable() {
   return (

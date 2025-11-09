@@ -1,13 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import Layout from '@/components/Layout'
 import BrandingForm from '@/components/BrandingForm'
 import LandingBuilder from '@/components/LandingBuilder'
 import DashboardCard from '@/components/DashboardCard'
+import Button from '@/components/Button'
+import Card from '@/components/Card'
 
 export default function Launch() {
-  const [activeTab, setActiveTab] = useState('branding')
+  const [activeTab, setActiveTab] = useState('overview')
+  const [currentMVP, setCurrentMVP] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const router = useRouter()
+
+  // Load current MVP from localStorage
+  useEffect(() => {
+    const mvpData = localStorage.getItem('currentMVP')
+    if (mvpData) {
+      setCurrentMVP(JSON.parse(mvpData))
+    } else {
+      // Redirect back to MVP builder if no MVP data
+      router.push('/mvp-builder')
+    }
+    setIsLoading(false)
+  }, [router])
+
   const [launchedStartups, setLaunchedStartups] = useState([
     {
       id: 'startup-1',
@@ -77,11 +96,42 @@ export default function Launch() {
     }
   ]
 
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading Your MVP...</h2>
+            <p className="text-gray-600">Preparing your launch dashboard</p>
+          </div>
+        </div>
+      </Layout>
+    )
+  }
+
+  if (!currentMVP) {
+    return (
+      <Layout>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-6xl mb-4">🚀</div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">No MVP Found</h2>
+            <p className="text-gray-600 mb-4">Please build an MVP first before launching</p>
+            <Button onClick={() => router.push('/mvp-builder')}>
+              Build Your MVP
+            </Button>
+          </div>
+        </div>
+      </Layout>
+    )
+  }
+
   return (
     <Layout>
       <Head>
-        <title>Launch - FounderX</title>
-        <meta name="description" content="Launch and track your startup in real-time with FounderX" />
+        <title>Launch {currentMVP.name} | FounderX</title>
+        <meta name="description" content={`Launch and grow ${currentMVP.name} with FounderX`} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

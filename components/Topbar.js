@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Link from 'next/link'
 
 export default function Topbar({ onMenuClick }) {
   const [showDropdown, setShowDropdown] = useState(false)
@@ -68,7 +69,7 @@ export default function Topbar({ onMenuClick }) {
                 <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                 <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                 <hr className="my-1" />
-                <a href="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                <Link href="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</Link>
               </div>
             )}
           </div>

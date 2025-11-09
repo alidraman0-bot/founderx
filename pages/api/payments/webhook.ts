@@ -3,7 +3,7 @@ import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16',
+  apiVersion: '2025-08-27.basil',
 })
 
 const supabase = createClient(
@@ -88,7 +88,7 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
       status: 'active',
       stripe_customer_id: session.customer as string,
       subscription_start_date: new Date().toISOString(),
-      subscription_end_date: new Date(subscription.current_period_end * 1000).toISOString()
+      subscription_end_date: new Date((subscription as any).current_period_end * 1000).toISOString()
     })
     .eq('id', userId)
 
@@ -128,7 +128,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
       subscription_id: subscription.id,
       status: 'active',
       subscription_start_date: new Date().toISOString(),
-      subscription_end_date: new Date(subscription.current_period_end * 1000).toISOString()
+      subscription_end_date: new Date((subscription as any).current_period_end * 1000).toISOString()
     })
     .eq('id', user.id)
 
@@ -168,7 +168,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
       plan: plan,
       subscription_id: subscription.id,
       status: status,
-      subscription_end_date: new Date(subscription.current_period_end * 1000).toISOString()
+      subscription_end_date: new Date((subscription as any).current_period_end * 1000).toISOString()
     })
     .eq('id', user.id)
 

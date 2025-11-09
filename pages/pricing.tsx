@@ -14,7 +14,7 @@ export default function Pricing() {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null)
   const [billingPeriod, setBillingPeriod] = useState('monthly')
 
-  const handleUpgrade = async (plan: Plan) => {
+  const handleUpgrade = async (plan: any) => {
     if (plan.price === 0) {
       // Free plan - redirect to signup
       window.location.href = plan.ctaLink

@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const stages = [
   { id: 'idea', name: 'Idea', href: '/idea-discovery', icon: '💡', description: 'Generate startup ideas' },
-  { id: 'plan', name: 'Plan', href: '/business-plan', icon: '📋', description: 'Create business plan' },
+  { id: 'plan', name: 'Plan', href: '/plan-generator', icon: '📋', description: 'Create business plan' },
   { id: 'mvp', name: 'MVP', href: '/mvp-builder', icon: '🚀', description: 'Build minimum viable product' },
   { id: 'launch', name: 'Launch', href: '/launch', icon: '🌍', description: 'Deploy to market' }
 ]

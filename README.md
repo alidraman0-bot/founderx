@@ -2,7 +2,16 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+**Important:** All npm commands must be run from the `founderx` directory (not the root `founderX` directory).
+
+First, navigate to the project directory and install dependencies:
+
+```bash
+cd founderx
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev

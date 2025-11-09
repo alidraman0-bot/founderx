@@ -68,7 +68,7 @@ export default function Home() {
                 {/* Badge */}
                 <div className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium mb-8">
                   <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
-                  NEW — The World's First AI Cofounder
+                  NEW — The World&apos;s First AI Cofounder
                 </div>
 
                 {/* Headline */}
@@ -349,7 +349,7 @@ export default function Home() {
                   </div>
                 </div>
                 <blockquote className="text-xl text-gray-700 italic leading-relaxed">
-                  "FounderX feels like having a YC partner in your pocket. It validated my SaaS idea in a week instead of 6 months. The AI guidance was spot-on and saved me thousands in consulting fees."
+                  &ldquo;FounderX feels like having a YC partner in your pocket. It validated my SaaS idea in a week instead of 6 months. The AI guidance was spot-on and saved me thousands in consulting fees.&rdquo;
                 </blockquote>
               </div>
             </div>

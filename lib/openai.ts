@@ -1,14 +1,10 @@
-import OpenAI from 'openai'
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Mock implementation - OpenAI not available
 
 export interface IdeaResult {
+  title: string
   problem: string
   target_customer: string
   market_potential: number
-  title: string
 }
 
 export interface BusinessPlanResult {
@@ -17,140 +13,94 @@ export interface BusinessPlanResult {
   market_size: string
   revenue_model: string
   gtm_strategy: string
+  created_at: string
 }
 
-export interface MVPCopyResult {
-  headline: string
-  cta: string
-  dashboard_features: string[]
+export interface MVPPlanResult {
+  tech_stack: string
+  features: string[]
+  timeline: string
+  budget: string
+  created_at: string
 }
 
 export interface BrandingResult {
-  name: string
-  tagline: string
-  color_palette: string[]
-  font_style: string
+  logo: string
+  colors: string[]
+  fonts: string[]
+  domain: {
+    available: boolean
+    suggestions: string[]
+  }
+  created_at: string
 }
 
-export const generateIdeas = async (industry?: string): Promise<IdeaResult[]> => {
-  const prompt = industry 
-    ? `Generate 3-5 innovative startup ideas in the ${industry} industry. For each idea, provide:
-       - A compelling problem statement
-       - Target customer description
-       - Market potential score (1-10)
-       - Catchy title
-       
-       Format as JSON array with keys: title, problem, target_customer, market_potential`
-    : `Generate 3-5 innovative startup ideas across any industry. For each idea, provide:
-       - A compelling problem statement
-       - Target customer description
-       - Market potential score (1-10)
-       - Catchy title
-       
-       Format as JSON array with keys: title, problem, target_customer, market_potential`
-
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4",
-    messages: [{ role: "user", content: prompt }],
-    temperature: 0.8,
-  })
-
-  const content = completion.choices[0].message.content
-  return JSON.parse(content || '[]')
+export const generateIdeas = async (prompt: string): Promise<IdeaResult[]> => {
+  // Mock implementation - OpenAI not available
+  return [
+    {
+      title: "AI-Powered Personal Assistant",
+      problem: "People struggle to manage their daily tasks and schedules efficiently",
+      target_customer: "Busy professionals and entrepreneurs",
+      market_potential: 8
+    },
+    {
+      title: "Sustainable Food Delivery",
+      problem: "Food delivery services generate excessive packaging waste",
+      target_customer: "Environmentally conscious consumers",
+      market_potential: 7
+    },
+    {
+      title: "Remote Team Collaboration Tool",
+      problem: "Remote teams struggle with effective communication and project management",
+      target_customer: "Remote workers and distributed teams",
+      market_potential: 9
+    }
+  ]
 }
 
 export const generateBusinessPlan = async (idea: IdeaResult): Promise<BusinessPlanResult> => {
-  const prompt = `Create a lean business plan for this startup idea:
-   
-   Title: ${idea.title}
-   Problem: ${idea.problem}
-   Target Customer: ${idea.target_customer}
-   Market Potential: ${idea.market_potential}/10
-   
-   Provide:
-   - Refined problem statement
-   - Solution description
-   - Market size snapshot
-   - Revenue model
-   - Early go-to-market strategy
-   
-   Format as JSON with keys: problem, solution, market_size, revenue_model, gtm_strategy`
-
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4",
-    messages: [{ role: "user", content: prompt }],
-    temperature: 0.7,
-  })
-
-  const content = completion.choices[0].message.content
-  return JSON.parse(content || '{}')
+  // Mock implementation - OpenAI not available
+  return {
+    problem: idea.problem,
+    solution: `An innovative solution that addresses ${idea.problem.toLowerCase()} through technology and user-centered design.`,
+    market_size: "Large market opportunity with significant growth potential",
+    revenue_model: "Subscription-based model with freemium tier",
+    gtm_strategy: "Digital marketing, partnerships, and content marketing",
+    created_at: new Date().toISOString()
+  }
 }
 
-export const generateMVPCopy = async (plan: BusinessPlanResult): Promise<MVPCopyResult> => {
-  const prompt = `Create MVP copy for this business plan:
-   
-   Problem: ${plan.problem}
-   Solution: ${plan.solution}
-   Revenue Model: ${plan.revenue_model}
-   
-   Provide:
-   - Compelling landing page headline
-   - Call-to-action button text
-   - 2-3 dashboard features for the SaaS
-   
-   Format as JSON with keys: headline, cta, dashboard_features (array)`
-
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4",
-    messages: [{ role: "user", content: prompt }],
-    temperature: 0.7,
-  })
-
-  const content = completion.choices[0].message.content
-  return JSON.parse(content || '{}')
+export const generateMVPPlan = async (idea: IdeaResult): Promise<MVPPlanResult> => {
+  // Mock implementation - OpenAI not available
+  return {
+    tech_stack: "Next.js, React, Node.js, PostgreSQL",
+    features: [
+      "User authentication and profiles",
+      "Core functionality implementation",
+      "Basic dashboard and analytics",
+      "Mobile-responsive design"
+    ],
+    timeline: "4-6 weeks",
+    budget: "$5,000 - $10,000",
+    created_at: new Date().toISOString()
+  }
 }
 
-export const generateBranding = async (idea: IdeaResult): Promise<BrandingResult> => {
-  const prompt = `Create branding for this startup:
-   
-   Title: ${idea.title}
-   Problem: ${idea.problem}
-   Target Customer: ${idea.target_customer}
-   
-   Provide:
-   - Startup name
-   - Catchy tagline
-   - Color palette (3-4 hex colors)
-   - Suggested font style
-   
-   Format as JSON with keys: name, tagline, color_palette (array), font_style`
-
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4",
-    messages: [{ role: "user", content: prompt }],
-    temperature: 0.8,
-  })
-
-  const content = completion.choices[0].message.content
-  return JSON.parse(content || '{}')
-}
-
-export const generateLogoSVG = (name: string, colors: string[]): string => {
-  const primaryColor = colors[0] || '#6C63FF'
-  const secondaryColor = colors[1] || '#38E4AE'
-  
-  return `
-    <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:${primaryColor};stop-opacity:1" />
-          <stop offset="100%" style="stop-color:${secondaryColor};stop-opacity:1" />
-        </linearGradient>
-      </defs>
-      <circle cx="60" cy="60" r="50" fill="url(#gradient)" />
-      <text x="60" y="70" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="white">
-        ${name.charAt(0).toUpperCase()}
-      </text>
-    </svg>
-  `
+export const generateBranding = async (startupName: string): Promise<BrandingResult> => {
+  // Mock implementation - OpenAI not available
+  return {
+    logo: "🚀",
+    colors: ["#3B82F6", "#8B5CF6", "#10B981", "#F59E0B"],
+    fonts: ["Inter", "Poppins", "Roboto", "Open Sans"],
+    domain: {
+      available: true,
+      suggestions: [
+        `${startupName.toLowerCase()}.com`,
+        `${startupName.toLowerCase()}.io`,
+        `get${startupName.toLowerCase()}.com`
+      ]
+    },
+    created_at: new Date().toISOString()
+  }
 }

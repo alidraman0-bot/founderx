@@ -1,8 +1,7 @@
-import { type ClassValue, clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+// Simplified utils without external dependencies
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+export function cn(...inputs: (string | undefined | null)[]): string {
+  return inputs.filter(Boolean).join(' ')
 }
 
 export function slugify(text: string): string {
@@ -13,21 +12,38 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, '')
 }
 
-export function formatCurrency(amount: number): string {
+export function formatDate(date: string | Date): string {
+  const d = new Date(date)
+  return d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
+
+export function formatCurrency(amount: number, currency = 'USD'): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency
   }).format(amount)
 }
 
-export function formatDate(date: string | Date): string {
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }).format(new Date(date))
+export function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text
+  return text.slice(0, maxLength) + '...'
 }
 
-export function generateRandomId(): string {
-  return Math.random().toString(36).substring(2) + Date.now().toString(36)
+export function generateId(): string {
+  return Math.random().toString(36).substr(2, 9)
+}
+
+export function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => func(...args), wait)
+  }
 }
